@@ -467,6 +467,13 @@ var Font = (function FontClosure() {
   function Font(name, file, properties) {
     var charCode, glyphName, fontChar;
 
+    var propName = properties.name;
+    this._styleData = {
+      font: propName,
+      italic: !!propName.match(/Ita|Slant|Obl/),
+      bold: !!propName.match(/Bol|Med|Bla/)
+    };
+
     this.name = name;
     this.loadedName = properties.loadedName;
     this.isType3Font = properties.isType3Font;

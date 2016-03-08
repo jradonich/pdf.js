@@ -57,6 +57,19 @@ var renderTextLayer = (function renderTextLayerClosure() {
     return !NonWhitespaceRegexp.test(str);
   }
 
+  function styleTextLayer(textElement, font, style) {
+    textElement.setAttribute('data-font', font);
+    if (font.match(/Ita|Slant|Obl/)) {
+      textElement.setAttribute('data-italic','');
+      textElement.style.fontStyle = 'italic';
+    }
+    if (font.match(/Bol|Med|Bla/)) {
+      textElement.setAttribute('data-bold', '');
+      textElement.style.fontWeight = 'bold';
+    }
+
+  }
+
   function appendText(textDivs, viewport, geom, styles) {
     var style = styles[geom.fontName];
     var textDiv = document.createElement('div');
@@ -91,6 +104,8 @@ var renderTextLayer = (function renderTextLayerClosure() {
     textDiv.style.top = top + 'px';
     textDiv.style.fontSize = fontHeight + 'px';
     textDiv.style.fontFamily = style.fontFamily;
+
+    styleTextLayer(textDiv, style._styleData.font, style._styleData);
 
     textDiv.textContent = geom.str;
     // |fontName| is only used by the Font Inspector. This test will succeed
